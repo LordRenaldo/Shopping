@@ -8,7 +8,7 @@ public class Gestordelista : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log ("star");
     }
 
     // Update is called once per frame
