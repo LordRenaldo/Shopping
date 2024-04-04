@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,6 +45,7 @@ public class Gestordelista : MonoBehaviour
         newlist.AddRange (list2P);
 
         List<string> ListaTotal= SortAlphabetically (newlist);
+        ListaTotal.Reverse ();
         return ListaTotal;
     }
     private List<string> CreateAListOfNonPerishable ()
@@ -201,14 +203,11 @@ public class Gestordelista : MonoBehaviour
     }
     private void InstanciarBoton ( string nombreArticulo )
     {
-        // Instanciar el prefab del botón
         GameObject boton = Instantiate (prefabBotton,content.transform);
 
-        // Obtener el componente de texto del botón y asignarle el nombre del artículo
-        //Text textoBoton = boton.GetComponentInChildren<Text> ();
-        //textoBoton.text = nombreArticulo;
+        TextMeshProUGUI textoBoton = boton.GetComponentInChildren<TextMeshProUGUI> ();
+        textoBoton.text = nombreArticulo;
 
-        // Posicionar el botón verticalmente según la última posición y la diferencia especificada
         boton.transform.localPosition = ultimaPosicion;
         ultimaPosicion -= new Vector3 (0f, diferencia, 0f);
     }
