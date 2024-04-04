@@ -1,20 +1,40 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gestordelista : MonoBehaviour
 {
+    [SerializeField]
+    GameObject prefabBotton;
+    [SerializeField]
+    GameObject content;
+    Vector3 ultimaPosicion;
+    [SerializeField]
+    float diferencia = 400f;
+
     // Start is called before the first frame update
-    void Start()
+    void Start ()
     {
-        Debug.Log ("star");
+        ultimaPosicion = Vector3.zero;
+        List<string> listaFrutas = CreateListOfFruitsAndVegetables ();
+        List<string> listaMercado = CreateAListOfNonPerishable ();
+        List<string> todosLosProductos = CreateListOfAllArticles (listaMercado, listaFrutas);
+
+        foreach (string articulos in todosLosProductos) 
+        {
+
+            InstanciarBoton (articulos);
+
+
+        }
+
     }
 
     // Update is called once per frame
-    void Update()
+    void Update ()
     {
-        
+
     }
     private List<string> CreateListOfAllArticles ( List<string> list1P, List<string> list2P )
     {
@@ -23,7 +43,8 @@ public class Gestordelista : MonoBehaviour
         newlist.AddRange (list1P);
         newlist.AddRange (list2P);
 
-        return newlist;
+        List<string> ListaTotal= SortAlphabetically (newlist);
+        return ListaTotal;
     }
     private List<string> CreateAListOfNonPerishable ()
     {
@@ -178,6 +199,20 @@ public class Gestordelista : MonoBehaviour
     {
         return listP.OrderBy (x => x).ToList ();
     }
+    private void InstanciarBoton ( string nombreArticulo )
+    {
+        // Instanciar el prefab del botón
+        GameObject boton = Instantiate (prefabBotton,content.transform);
+
+        // Obtener el componente de texto del botón y asignarle el nombre del artículo
+        //Text textoBoton = boton.GetComponentInChildren<Text> ();
+        //textoBoton.text = nombreArticulo;
+
+        // Posicionar el botón verticalmente según la última posición y la diferencia especificada
+        boton.transform.localPosition = ultimaPosicion;
+        ultimaPosicion -= new Vector3 (0f, diferencia, 0f);
+    }
+
 
 
 }

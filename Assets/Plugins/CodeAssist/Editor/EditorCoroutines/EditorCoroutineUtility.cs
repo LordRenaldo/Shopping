@@ -44,9 +44,9 @@ namespace Meryel.UnityCodeAssist.Editor.EditorCoroutines
         /// Only types that don't inherit from <see cref="UnityEngine.Object">UnityEngine.Object</see> will get collected the next time the GC runs instead of getting null-ed immediately.
         /// </remarks>
         /// <returns>A handle to an <see cref="EditorCoroutine">EditorCoroutine</see>.</returns>
-        public static EditorCoroutine StartCoroutine(IEnumerator routine, object owner)
+        public static EditorCoroutine StartCoroutine ( IEnumerator routine, object owner )
         {
-            return new EditorCoroutine(routine, owner);
+            return new EditorCoroutine (routine, owner);
         }
 
         /// <summary>
@@ -77,9 +77,9 @@ namespace Meryel.UnityCodeAssist.Editor.EditorCoroutines
         /// </summary>
         /// <param name="routine"> Generator function to execute. </param>
         /// <returns>A handle to an <see cref="EditorCoroutine">EditorCoroutine.</see></returns>
-        public static EditorCoroutine StartCoroutineOwnerless(IEnumerator routine)
+        public static EditorCoroutine StartCoroutineOwnerless ( IEnumerator routine )
         {
-            return new EditorCoroutine(routine);
+            return new EditorCoroutine (routine);
         }
 
         /// <summary>
@@ -115,14 +115,14 @@ namespace Meryel.UnityCodeAssist.Editor.EditorCoroutines
         /// </code>
         /// </summary>
         /// <param name="coroutine">A handle to an <see cref="EditorCoroutine">EditorCoroutine.</see></param>
-        public static void StopCoroutine(EditorCoroutine coroutine)
+        public static void StopCoroutine ( EditorCoroutine coroutine )
         {
             if (coroutine == null)
             {
-                Debug.LogAssertion("EditorCoroutine handle is null.");
+                Debug.LogAssertion ("EditorCoroutine handle is null.");
                 return;
             }
-            coroutine.Stop();
+            coroutine.Stop ();
         }
     }
 }

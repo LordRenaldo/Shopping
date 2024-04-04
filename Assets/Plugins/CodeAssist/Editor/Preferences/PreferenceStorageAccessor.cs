@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 #if UNITY_EDITOR_WIN
 using Microsoft.Win32;
@@ -24,20 +23,20 @@ namespace Meryel.UnityCodeAssist.Editor.Preferences
     public abstract class PreferanceStorageAccessor
     {
         protected string prefPath;
-        protected string[] cachedData = new string[0];
+        protected string [] cachedData = new string [0];
 
-        protected abstract void FetchKeysFromSystem();
+        protected abstract void FetchKeysFromSystem ();
 
-        protected PreferanceStorageAccessor(string pathToPrefs)
+        protected PreferanceStorageAccessor ( string pathToPrefs )
         {
             prefPath = pathToPrefs;
         }
 
-        public string[] GetKeys(bool reloadData = true)
+        public string [] GetKeys ( bool reloadData = true )
         {
             if (reloadData || cachedData.Length == 0)
             {
-                FetchKeysFromSystem();
+                FetchKeysFromSystem ();
             }
 
             return cachedData;
@@ -46,12 +45,12 @@ namespace Meryel.UnityCodeAssist.Editor.Preferences
         public Action? PrefEntryChangedDelegate;
         protected bool ignoreNextChange = false;
 
-        public void IgnoreNextChange()
+        public void IgnoreNextChange ()
         {
             ignoreNextChange = true;
         }
 
-        protected virtual void OnPrefEntryChanged()
+        protected virtual void OnPrefEntryChanged ()
         {
             if (ignoreNextChange)
             {
@@ -59,15 +58,15 @@ namespace Meryel.UnityCodeAssist.Editor.Preferences
                 return;
             }
 
-            PrefEntryChangedDelegate?.Invoke();
+            PrefEntryChangedDelegate?.Invoke ();
         }
 
         public Action? StartLoadingDelegate;
         public Action? StopLoadingDelegate;
 
-        public abstract void StartMonitoring();
-        public abstract void StopMonitoring();
-        public abstract bool IsMonitoring();
+        public abstract void StartMonitoring ();
+        public abstract void StopMonitoring ();
+        public abstract bool IsMonitoring ();
     }
 
 #if UNITY_EDITOR_WIN
@@ -76,27 +75,27 @@ namespace Meryel.UnityCodeAssist.Editor.Preferences
     {
         readonly RegistryMonitor monitor;
 
-        public WindowsPrefStorage(string pathToPrefs) : base(pathToPrefs)
+        public WindowsPrefStorage ( string pathToPrefs ) : base (pathToPrefs)
         {
-            monitor = new RegistryMonitor(RegistryHive.CurrentUser, prefPath);
-            monitor.RegChanged += new EventHandler(OnRegChanged);
+            monitor = new RegistryMonitor (RegistryHive.CurrentUser, prefPath);
+            monitor.RegChanged += new EventHandler (OnRegChanged);
         }
 
-        private void OnRegChanged(object sender, EventArgs e)
+        private void OnRegChanged ( object sender, EventArgs e )
         {
-            OnPrefEntryChanged();
+            OnPrefEntryChanged ();
         }
 
-        protected override void FetchKeysFromSystem()
+        protected override void FetchKeysFromSystem ()
         {
-            cachedData = new string[0];
+            cachedData = new string [0];
 
-            using (RegistryKey rootKey = Registry.CurrentUser.OpenSubKey(prefPath))
+            using (RegistryKey rootKey = Registry.CurrentUser.OpenSubKey (prefPath))
             {
                 if (rootKey != null)
                 {
-                    cachedData = rootKey.GetValueNames();
-                    rootKey.Close();
+                    cachedData = rootKey.GetValueNames ();
+                    rootKey.Close ();
                 }
             }
 
@@ -104,37 +103,37 @@ namespace Meryel.UnityCodeAssist.Editor.Preferences
             //cachedData = cachedData.Select((key) => { return key.Substring(0, key.LastIndexOf("_h", StringComparison.Ordinal)); }).ToArray();
             for (int i = 0; i < cachedData.Length; i++)
             {
-                var indexOfSuffix = cachedData[i].LastIndexOf("_h", StringComparison.Ordinal);
+                var indexOfSuffix = cachedData [i].LastIndexOf ("_h", StringComparison.Ordinal);
                 if (indexOfSuffix >= 0)
-                    cachedData[i] = cachedData[i].Substring(0, indexOfSuffix);
+                    cachedData [i] = cachedData [i].Substring (0, indexOfSuffix);
             }
 
-            EncodeAnsiInPlace();
+            EncodeAnsiInPlace ();
         }
 
-        public override void StartMonitoring()
+        public override void StartMonitoring ()
         {
-            monitor.Start();
+            monitor.Start ();
         }
 
-        public override void StopMonitoring()
+        public override void StopMonitoring ()
         {
-            monitor.Stop();
+            monitor.Stop ();
         }
 
-        public override bool IsMonitoring()
+        public override bool IsMonitoring ()
         {
             return monitor.IsMonitoring;
         }
 
-        private void EncodeAnsiInPlace()
+        private void EncodeAnsiInPlace ()
         {
             Encoding utf8 = Encoding.UTF8;
-            Encoding ansi = Encoding.GetEncoding(1252);
+            Encoding ansi = Encoding.GetEncoding (1252);
 
             for (int i = 0; i < cachedData.Length; i++)
             {
-                cachedData[i] = utf8.GetString(ansi.GetBytes(cachedData[i]));
+                cachedData [i] = utf8.GetString (ansi.GetBytes (cachedData [i]));
             }
         }
     }

@@ -14,17 +14,17 @@ namespace Meryel.UnityCodeAssist.Editor.Preferences
         public List<PreferenceEntry>? userDefList;
         public List<PreferenceEntry>? unityDefList;
 
-        private void OnEnable()
+        private void OnEnable ()
         {
             hideFlags = HideFlags.DontSave;
-            userDefList ??= new List<PreferenceEntry>();
-            unityDefList ??= new List<PreferenceEntry>();
+            userDefList ??= new List<PreferenceEntry> ();
+            unityDefList ??= new List<PreferenceEntry> ();
         }
 
-        public void ClearLists()
+        public void ClearLists ()
         {
-            userDefList?.Clear();
-            unityDefList?.Clear();
+            userDefList?.Clear ();
+            unityDefList?.Clear ();
         }
     }
 
@@ -46,13 +46,13 @@ namespace Meryel.UnityCodeAssist.Editor.Preferences
         public int m_intValue;
         public float m_floatValue;
 
-        public string? ValueAsString()
+        public string? ValueAsString ()
         {
             return m_typeSelection switch
             {
                 PrefTypes.String => m_strValue,
-                PrefTypes.Int => m_intValue.ToString(),
-                PrefTypes.Float => m_floatValue.ToString(),
+                PrefTypes.Int => m_intValue.ToString (),
+                PrefTypes.Float => m_floatValue.ToString (),
                 _ => string.Empty,
             };
         }

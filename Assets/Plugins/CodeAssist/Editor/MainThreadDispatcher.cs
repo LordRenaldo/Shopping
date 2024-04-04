@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
-using UnityEngine;
 using UnityEditor;
 
 
@@ -16,20 +13,20 @@ namespace Meryel.UnityCodeAssist.Editor
     {
         readonly static ConcurrentBag<System.Action> actions;
 
-        static MainThreadDispatcher()
+        static MainThreadDispatcher ()
         {
-            actions = new ConcurrentBag<System.Action>();
+            actions = new ConcurrentBag<System.Action> ();
             EditorApplication.update += Update;
         }
 
-        static void Update()
+        static void Update ()
         {
-            while (actions.TryTake(out var action))
+            while (actions.TryTake (out var action))
             {
-                action.Invoke();
+                action.Invoke ();
             }
         }
 
-        public static void Add(System.Action action) => actions.Add(action);
+        public static void Add ( System.Action action ) => actions.Add (action);
     }
 }

@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
 
 #nullable enable
@@ -20,73 +19,73 @@ namespace Meryel.UnityCodeAssist.Editor
         public const string Title = "Code Assist";
 #endif
 
-        [MenuItem("Tools/" + Title + "/Status", false, 1)]
-        static void DisplayStatusWindow()
+        [MenuItem ("Tools/" + Title + "/Status", false, 1)]
+        static void DisplayStatusWindow ()
         {
-            StatusWindow.Display();
+            StatusWindow.Display ();
         }
 
 
-        [MenuItem("Tools/" + Title + "/Synchronize", false, 2)]
-        static void Sync()
+        [MenuItem ("Tools/" + Title + "/Synchronize", false, 2)]
+        static void Sync ()
         {
-            EditorCoroutines.EditorCoroutineUtility.StartCoroutine(SyncAux(), NetMQInitializer.Publisher);
+            EditorCoroutines.EditorCoroutineUtility.StartCoroutine (SyncAux (), NetMQInitializer.Publisher);
 
             //NetMQInitializer.Publisher.SendConnect();
             //Serilog.Log.Information("Code Assist is looking for more IDEs to connect to...");
 
-            NetMQInitializer.Publisher?.SendAnalyticsEvent("Gui", "Synchronize_MenuItem");
+            NetMQInitializer.Publisher?.SendAnalyticsEvent ("Gui", "Synchronize_MenuItem");
         }
 
 
-        [MenuItem("Tools/" + Title + "/Report error", false, 51)]
-        static void DisplayFeedbackWindow()
+        [MenuItem ("Tools/" + Title + "/Report error", false, 51)]
+        static void DisplayFeedbackWindow ()
         {
-            FeedbackWindow.Display();
+            FeedbackWindow.Display ();
         }
 
-        [MenuItem("Tools/" + Title + "/About", false, 52)]
-        static void DisplayAboutWindow()
+        [MenuItem ("Tools/" + Title + "/About", false, 52)]
+        static void DisplayAboutWindow ()
         {
-            AboutWindow.Display();
+            AboutWindow.Display ();
         }
 
 #if MERYEL_UCA_LITE_VERSION
-        [MenuItem("Tools/" + Title + "/Compare versions", false, 31)]
-        static void CompareVersions()
+        [MenuItem ("Tools/" + Title + "/Compare versions", false, 31)]
+        static void CompareVersions ()
         {
-            Application.OpenURL("http://unitycodeassist.netlify.app/compare");
+            Application.OpenURL ("http://unitycodeassist.netlify.app/compare");
 
-            NetMQInitializer.Publisher?.SendAnalyticsEvent("Gui", "CompareVersions_MenuItem");
+            NetMQInitializer.Publisher?.SendAnalyticsEvent ("Gui", "CompareVersions_MenuItem");
         }
 
-        [MenuItem("Tools/" + Title + "/Get full version", false, 32)]
-        static void GetFullVersion()
+        [MenuItem ("Tools/" + Title + "/Get full version", false, 32)]
+        static void GetFullVersion ()
         {
-            Application.OpenURL("http://u3d.as/2N2H");
+            Application.OpenURL ("http://u3d.as/2N2H");
 
-            NetMQInitializer.Publisher?.SendAnalyticsEvent("Gui", "FullVersion_MenuItem");
+            NetMQInitializer.Publisher?.SendAnalyticsEvent ("Gui", "FullVersion_MenuItem");
         }
 #endif // MERYEL_UCA_LITE_VERSION
 
 
-        static IEnumerator SyncAux()
+        static IEnumerator SyncAux ()
         {
             var clientCount = NetMQInitializer.Publisher?.clients.Count ?? 0;
-            NetMQInitializer.Publisher?.SendConnect();
-            Serilog.Log.Information("Code Assist is looking for more IDEs to connect to...");
+            NetMQInitializer.Publisher?.SendConnect ();
+            Serilog.Log.Information ("Code Assist is looking for more IDEs to connect to...");
 
             //yield return new WaitForSeconds(3);
-            yield return new EditorCoroutines.EditorWaitForSeconds(3);
+            yield return new EditorCoroutines.EditorWaitForSeconds (3);
 
             var newClientCount = NetMQInitializer.Publisher?.clients.Count ?? 0;
 
             var dif = newClientCount - clientCount;
 
             if (dif <= 0)
-                Serilog.Log.Information("Code Assist couldn't find any new IDE to connect to.");
+                Serilog.Log.Information ("Code Assist couldn't find any new IDE to connect to.");
             else
-                Serilog.Log.Information("Code Assist is connected to {Dif} new IDE(s).", dif);
+                Serilog.Log.Information ("Code Assist is connected to {Dif} new IDE(s).", dif);
         }
 
 #if MERYEL_DEBUG
@@ -241,22 +240,22 @@ namespace Meryel.UnityCodeAssist.Editor
 #endif // MERYEL_DEBUG
 
 
-        public static void SendTagsAndLayers()
+        public static void SendTagsAndLayers ()
         {
-            Serilog.Log.Debug(nameof(SendTagsAndLayers));
+            Serilog.Log.Debug (nameof (SendTagsAndLayers));
 
             var tags = UnityEditorInternal.InternalEditorUtility.tags;
-            NetMQInitializer.Publisher?.SendTags(tags);
+            NetMQInitializer.Publisher?.SendTags (tags);
 
             var names = UnityEditorInternal.InternalEditorUtility.layers;
-            var indices = names.Select(l => LayerMask.NameToLayer(l).ToString()).ToArray();
-            NetMQInitializer.Publisher?.SendLayers(indices, names);
+            var indices = names.Select (l => LayerMask.NameToLayer (l).ToString ()).ToArray ();
+            NetMQInitializer.Publisher?.SendLayers (indices, names);
 
             var sls = SortingLayer.layers;
-            var sortingNames = sls.Select(sl => sl.name).ToArray();
-            var sortingIds = sls.Select(sl => sl.id.ToString()).ToArray();
-            var sortingValues = sls.Select(sl => sl.value.ToString()).ToArray();
-            NetMQInitializer.Publisher?.SendSortingLayers(sortingNames, sortingIds, sortingValues);
+            var sortingNames = sls.Select (sl => sl.name).ToArray ();
+            var sortingIds = sls.Select (sl => sl.id.ToString ()).ToArray ();
+            var sortingValues = sls.Select (sl => sl.value.ToString ()).ToArray ();
+            NetMQInitializer.Publisher?.SendSortingLayers (sortingNames, sortingIds, sortingValues);
         }
 
     }
