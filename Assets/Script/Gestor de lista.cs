@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -17,6 +18,7 @@ public class Gestordelista : MonoBehaviour
     // Start is called before the first frame update
     void Start ()
     {
+
         ultimaPosicion = Vector3.zero;
         List<string> listaFrutas = CreateListOfFruitsAndVegetables ();
         List<string> listaMercado = CreateAListOfNonPerishable ();
@@ -24,10 +26,9 @@ public class Gestordelista : MonoBehaviour
 
         foreach (string articulos in todosLosProductos) 
         {
-
-            InstanciarBoton (articulos);
-
-
+           
+            StartCoroutine (InstanciarBoton (articulos));
+         
         }
 
     }
@@ -201,8 +202,10 @@ public class Gestordelista : MonoBehaviour
     {
         return listP.OrderBy (x => x).ToList ();
     }
-    private void InstanciarBoton ( string nombreArticulo )
+    IEnumerator InstanciarBoton ( string nombreArticulo )
     {
+        yield return new WaitForSeconds (1);
+
         GameObject boton = Instantiate (prefabBotton,content.transform);
 
         TextMeshProUGUI textoBoton = boton.GetComponentInChildren<TextMeshProUGUI> ();
@@ -211,8 +214,6 @@ public class Gestordelista : MonoBehaviour
         boton.transform.localPosition = ultimaPosicion;
         ultimaPosicion -= new Vector3 (0f, diferencia, 0f);
     }
-
-
 
 }
 
