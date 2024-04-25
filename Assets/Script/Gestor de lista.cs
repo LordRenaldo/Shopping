@@ -8,27 +8,27 @@ using UnityEngine.UI;
 public class Gestordelista : MonoBehaviour
 {
     [SerializeField]
-    GameObject prefabBotton;
+    Button prefabBotton;
     [SerializeField]
     GameObject content;
     Vector3 ultimaPosicion;
     [SerializeField]
     float diferencia = 400f;
 
+
+    List<string> listaFinal = new List<string> ();
+
     // Start is called before the first frame update
     void Start ()
     {
-
         ultimaPosicion = Vector3.zero;
         List<string> listaFrutas = CreateListOfFruitsAndVegetables ();
         List<string> listaMercado = CreateAListOfNonPerishable ();
         List<string> todosLosProductos = CreateListOfAllArticles (listaMercado, listaFrutas);
 
-        foreach (string articulos in todosLosProductos) 
+        foreach (string articulos in todosLosProductos)
         {
-           
             StartCoroutine (InstanciarBoton (articulos));
-         
         }
 
     }
@@ -45,7 +45,7 @@ public class Gestordelista : MonoBehaviour
         newlist.AddRange (list1P);
         newlist.AddRange (list2P);
 
-        List<string> ListaTotal= SortAlphabetically (newlist);
+        List<string> ListaTotal = SortAlphabetically (newlist);
         ListaTotal.Reverse ();
         return ListaTotal;
     }
@@ -204,15 +204,25 @@ public class Gestordelista : MonoBehaviour
     }
     IEnumerator InstanciarBoton ( string nombreArticulo )
     {
-        yield return new WaitForSeconds (1);
+        GameObject manager = GameObject.Find ("Manager");
+        Gestordelista script = manager.GetComponentInChildren<Gestordelista> ();
+        yield return new WaitForSeconds (0.5f);
 
-        GameObject boton = Instantiate (prefabBotton,content.transform);
+        Button newButton = Instantiate (prefabBotton, content.transform);
 
-        TextMeshProUGUI textoBoton = boton.GetComponentInChildren<TextMeshProUGUI> ();
-        textoBoton.text = nombreArticulo;
+        TextMeshProUGUI textNewBoton = newButton.GetComponentInChildren<TextMeshProUGUI> ();
+        textNewBoton.text = nombreArticulo;
 
-        boton.transform.localPosition = ultimaPosicion;
+        newButton = newButton.GetComponent<Button> (); // Corrección aquí
+        newButton.onClick.AddListener (() => script.addToNewList ());
+
+        newButton.transform.localPosition = ultimaPosicion;
         ultimaPosicion -= new Vector3 (0f, diferencia, 0f);
+
+    }
+    public void addToNewList ()
+    {
+        Debug.Log ("lo logre!!!!");
     }
 
 }

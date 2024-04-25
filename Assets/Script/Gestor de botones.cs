@@ -1,14 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Gestordebotones : MonoBehaviour
 {
-    public void ChangeOfScene (int scenaP) 
+
+    public void ChangeOfScene ( int scenaP )
+    {
+        SceneManager.LoadScene (scenaP);
+    }
+    public void addToNewList ()
+    {
+        Debug.Log ("lo logre!!!!");
+    }
+
+
+    private void OnMouseDown ()
     {
 
-        SceneManager.LoadScene (scenaP);
     }
 }
