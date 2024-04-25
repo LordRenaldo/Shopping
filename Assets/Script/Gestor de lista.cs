@@ -15,7 +15,6 @@ public class Gestordelista : MonoBehaviour
     [SerializeField]
     float diferencia = 400f;
 
-
     List<string> listaFinal = new List<string> ();
 
     // Start is called before the first frame update
@@ -206,23 +205,24 @@ public class Gestordelista : MonoBehaviour
     {
         GameObject manager = GameObject.Find ("Manager");
         Gestordelista script = manager.GetComponentInChildren<Gestordelista> ();
-        yield return new WaitForSeconds (0.5f);
+        yield return new WaitForSeconds (0.2f);
 
         Button newButton = Instantiate (prefabBotton, content.transform);
 
         TextMeshProUGUI textNewBoton = newButton.GetComponentInChildren<TextMeshProUGUI> ();
         textNewBoton.text = nombreArticulo;
 
-        newButton = newButton.GetComponent<Button> (); // Corrección aquí
-        newButton.onClick.AddListener (() => script.addToNewList ());
+        newButton = newButton.GetComponent<Button> ();
+        newButton.onClick.AddListener (() => script.addToNewList (nombreArticulo));
 
         newButton.transform.localPosition = ultimaPosicion;
         ultimaPosicion -= new Vector3 (0f, diferencia, 0f);
 
     }
-    public void addToNewList ()
+    public void addToNewList ( string Articulo )
     {
-        Debug.Log ("lo logre!!!!");
+        listaFinal.Add (Articulo);
+
     }
 
 }

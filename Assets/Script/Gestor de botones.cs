@@ -8,14 +8,9 @@ public class Gestordebotones : MonoBehaviour
     {
         SceneManager.LoadScene (scenaP);
     }
-    public void addToNewList ()
+    public void DestroyButton ( GameObject button )
     {
-        Debug.Log ("lo logre!!!!");
-    }
-
-
-    private void OnMouseDown ()
-    {
-
+        Debug.Log ("Destroy llamado");
+        Destroy (button);
     }
 }
