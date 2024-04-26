@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -16,6 +15,11 @@ public class Gestordelista : MonoBehaviour
     float diferencia = 400f;
 
     List<string> listaFinal = new List<string> ();
+    public Button PrefabBotton { get => prefabBotton; set => prefabBotton = value; }
+    public GameObject Content { get => content; set => content = value; }
+    public Vector3 UltimaPosicion { get => ultimaPosicion; set => ultimaPosicion = value; }
+    public float Diferencia { get => diferencia; set => diferencia = value; }
+    public List<string> ListaFinal { get => listaFinal; set => listaFinal = value; }
 
     // Start is called before the first frame update
     void Start ()
@@ -27,7 +31,7 @@ public class Gestordelista : MonoBehaviour
 
         foreach (string articulos in todosLosProductos)
         {
-            StartCoroutine (InstanciarBoton (articulos));
+            InstanciarBoton (articulos);
         }
 
     }
@@ -201,13 +205,17 @@ public class Gestordelista : MonoBehaviour
     {
         return listP.OrderBy (x => x).ToList ();
     }
-    IEnumerator InstanciarBoton ( string nombreArticulo )
+    private void InstanciarBoton ( string nombreArticulo )
     {
         GameObject manager = GameObject.Find ("Manager");
         Gestordelista script = manager.GetComponentInChildren<Gestordelista> ();
-        yield return new WaitForSeconds (0.2f);
-
         Button newButton = Instantiate (prefabBotton, content.transform);
+        newButton.onClick.AddListener (() =>
+        {
+            addToNewList (nombreArticulo);
+            Destroy (newButton.gameObject);
+        });
+
 
         TextMeshProUGUI textNewBoton = newButton.GetComponentInChildren<TextMeshProUGUI> ();
         textNewBoton.text = nombreArticulo;
@@ -221,8 +229,9 @@ public class Gestordelista : MonoBehaviour
     }
     public void addToNewList ( string Articulo )
     {
-        listaFinal.Add (Articulo);
 
+        listaFinal.Add (Articulo);
+        Debug.Log (Articulo + " Agregado a la lista de compras");
     }
 
 }

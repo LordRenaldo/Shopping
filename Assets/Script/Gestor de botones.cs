@@ -8,9 +8,10 @@ public class Gestordebotones : MonoBehaviour
     {
         SceneManager.LoadScene (scenaP);
     }
-    public void DestroyButton ( GameObject button )
+
+    //necesita un metodo para destruir un boton
+    public void DestroyButton ( GameObject botonP )
     {
-        Debug.Log ("Destroy llamado");
-        Destroy (button);
+        Destroy (botonP);
     }
 }
