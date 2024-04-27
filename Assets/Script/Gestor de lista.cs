@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class Gestordelista : MonoBehaviour
 {
     [SerializeField]
+    TextMeshProUGUI textPrefab;
+    [SerializeField]
     Button prefabBotton;
     [SerializeField]
     GameObject content;
@@ -14,12 +16,16 @@ public class Gestordelista : MonoBehaviour
     [SerializeField]
     float diferencia = 400f;
 
-    List<string> listaFinal = new List<string> ();
+    [HideInInspector]
+    public static List<string> listaFinal = new List<string> ();
+
+    public TextMeshProUGUI TextPrefab { get => textPrefab; set => textPrefab = value; }
     public Button PrefabBotton { get => prefabBotton; set => prefabBotton = value; }
     public GameObject Content { get => content; set => content = value; }
     public Vector3 UltimaPosicion { get => ultimaPosicion; set => ultimaPosicion = value; }
     public float Diferencia { get => diferencia; set => diferencia = value; }
     public List<string> ListaFinal { get => listaFinal; set => listaFinal = value; }
+
 
     // Start is called before the first frame update
     void Start ()
@@ -33,6 +39,12 @@ public class Gestordelista : MonoBehaviour
         {
             InstanciarBoton (articulos);
         }
+
+    }
+    void Awake ()
+    {
+
+        DontDestroyOnLoad (this.gameObject);
 
     }
 
@@ -209,29 +221,44 @@ public class Gestordelista : MonoBehaviour
     {
         GameObject manager = GameObject.Find ("Manager");
         Gestordelista script = manager.GetComponentInChildren<Gestordelista> ();
-        Button newButton = Instantiate (prefabBotton, content.transform);
+        Button newButton = Instantiate (PrefabBotton, Content.transform);
         newButton.onClick.AddListener (() =>
         {
             addToNewList (nombreArticulo);
             Destroy (newButton.gameObject);
         });
 
-
         TextMeshProUGUI textNewBoton = newButton.GetComponentInChildren<TextMeshProUGUI> ();
         textNewBoton.text = nombreArticulo;
 
-        newButton = newButton.GetComponent<Button> ();
-        newButton.onClick.AddListener (() => script.addToNewList (nombreArticulo));
-
-        newButton.transform.localPosition = ultimaPosicion;
-        ultimaPosicion -= new Vector3 (0f, diferencia, 0f);
-
+        newButton.transform.localPosition = UltimaPosicion;
+        UltimaPosicion -= new Vector3 (0f, Diferencia, 0f);
     }
     public void addToNewList ( string Articulo )
     {
-
-        listaFinal.Add (Articulo);
+        ListaFinal.Add (Articulo);
         Debug.Log (Articulo + " Agregado a la lista de compras");
+    }
+    public void PrintFinalListItems ()
+    {
+        Debug.Log ("Lista de compras final");
+        foreach (string item in ListaFinal)
+        {
+            Debug.Log (item);
+        }
+    }
+    public void DisplayFinalListItems ()
+    {
+        PrintFinalListItems ();
+
+        foreach (string item in ListaFinal)
+        {
+            TextMeshProUGUI newText = Instantiate (TextPrefab, Content.transform);
+            newText.transform.localPosition = UltimaPosicion;
+            UltimaPosicion -= new Vector3 (0f, Diferencia, 0f);
+            Debug.Log ("DisplayFinalListItems llamado");
+        }
+
     }
 
 }

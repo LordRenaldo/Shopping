@@ -377,7 +377,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000017166138, y: 0.000102996826}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &203792838
@@ -1645,7 +1645,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1410808368}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1626799607}
+        m_TargetAssemblyTypeName: Gestordebotones, Assembly-CSharp
+        m_MethodName: ChargeListFinal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1410808368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1729,6 +1741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df4d4a938c4f9ae498a24a630b5e0c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textPrefab: {fileID: 246780870021040930, guid: 9adefe754bf9afe49aa02d877a2a86d2, type: 3}
   prefabBotton: {fileID: 5432950935467389178, guid: 84f06961d5feb484c8b1aa93c5736d0d, type: 3}
   content: {fileID: 203792836}
   diferencia: 400

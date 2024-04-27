@@ -3,15 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class Gestordebotones : MonoBehaviour
 {
-
+    Gestordelista Manager;
     public void ChangeOfScene ( int scenaP )
     {
         SceneManager.LoadScene (scenaP);
     }
 
-    //necesita un metodo para destruir un boton
-    public void DestroyButton ( GameObject botonP )
+    public void ChargeListFinal ()
     {
-        Destroy (botonP);
+        SceneManager.LoadScene (2);
+        Manager.DisplayFinalListItems ();
     }
 }
