@@ -1,9 +1,15 @@
-using Serilog.Core;
-using Serilog.Events;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Text;
+using Meryel.UnityCodeAssist.Serilog.Core;
+using Meryel.UnityCodeAssist.Serilog.Events;
+using Meryel.UnityCodeAssist.Serilog.Formatting;
+
+
+#pragma warning disable IDE0005
+using Serilog = Meryel.UnityCodeAssist.Serilog;
+#pragma warning restore IDE0005
 
 
 #nullable enable
@@ -19,8 +25,8 @@ namespace Meryel.UnityCodeAssist.Editor.Logger
     public class MemorySink : ILogEventSink
     {
         readonly ConcurrentQueue<LogEvent> logs;
-        readonly ConcurrentQueue<LogEvent []> warningLogs;
-        readonly ConcurrentQueue<LogEvent []> errorLogs;
+        readonly ConcurrentQueue<LogEvent[]> warningLogs;
+        readonly ConcurrentQueue<LogEvent[]> errorLogs;
 
         const int logsLimit = 30;
         const int warningLimit = 5;
@@ -28,38 +34,38 @@ namespace Meryel.UnityCodeAssist.Editor.Logger
 
         readonly string outputTemplate;
 
-        public MemorySink ( string outputTemplate )
+        public MemorySink(string outputTemplate)
         {
             this.outputTemplate = outputTemplate;
 
-            logs = new ConcurrentQueue<LogEvent> ();
-            warningLogs = new ConcurrentQueue<LogEvent []> ();
-            errorLogs = new ConcurrentQueue<LogEvent []> ();
+            logs = new ConcurrentQueue<LogEvent>();
+            warningLogs = new ConcurrentQueue<LogEvent[]>();
+            errorLogs = new ConcurrentQueue<LogEvent[]>();
         }
 
-        public void Emit ( LogEvent logEvent )
+        public void Emit(LogEvent logEvent)
         {
             if (logEvent == null)
                 return;
 
-            logs.Enqueue (logEvent);
+            logs.Enqueue(logEvent);
             if (logs.Count > logsLimit)
-                logs.TryDequeue (out _);
+                logs.TryDequeue(out _);
 
             if (logEvent.Level == LogEventLevel.Warning)
             {
-                var warningAndLeadingLogs = logs.ToArray ();
-                warningLogs.Enqueue (warningAndLeadingLogs);
+                var warningAndLeadingLogs = logs.ToArray();
+                warningLogs.Enqueue(warningAndLeadingLogs);
                 if (warningLogs.Count > warningLimit)
-                    warningLogs.TryDequeue (out _);
+                    warningLogs.TryDequeue(out _);
             }
 
             if (logEvent.Level == LogEventLevel.Error)
             {
-                var errorAndLeadingLogs = logs.ToArray ();
-                errorLogs.Enqueue (errorAndLeadingLogs);
+                var errorAndLeadingLogs = logs.ToArray();
+                errorLogs.Enqueue(errorAndLeadingLogs);
                 if (errorLogs.Count > errorLimit)
-                    errorLogs.TryDequeue (out _);
+                    errorLogs.TryDequeue(out _);
             }
         }
 
@@ -68,56 +74,56 @@ namespace Meryel.UnityCodeAssist.Editor.Logger
         public int ErrorCount => errorLogs.Count;
         public int WarningCount => warningLogs.Count;
 
-        public string Export ()
+        public string Export()
         {
             IFormatProvider? formatProvider = null;
-            var formatter = new Serilog.Formatting.Display.MessageTemplateTextFormatter (
+            var formatter = new Serilog.Formatting.Display.MessageTemplateTextFormatter(
                 outputTemplate, formatProvider);
 
             var result = string.Empty;
 
-            using (var outputStream = new MemoryStream ())
+            using (var outputStream = new MemoryStream())
             {
-                var encoding = new UTF8Encoding (encoderShouldEmitUTF8Identifier: false);
-                using var output = new StreamWriter (outputStream, encoding);
+                var encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+                using var output = new StreamWriter(outputStream, encoding);
                 if (!errorLogs.IsEmpty)
                 {
-                    var errorArray = errorLogs.ToArray ();
+                    var errorArray = errorLogs.ToArray();
                     foreach (var error in errorArray)
                     {
                         foreach (var logEvent in error)
                         {
-                            formatter.Format (logEvent, output);
+                            formatter.Format(logEvent, output);
                         }
                     }
                 }
 
                 if (!warningLogs.IsEmpty)
                 {
-                    var warningArray = warningLogs.ToArray ();
+                    var warningArray = warningLogs.ToArray();
                     foreach (var warning in warningArray)
                     {
                         foreach (var logEvent in warning)
                         {
-                            formatter.Format (logEvent, output);
+                            formatter.Format(logEvent, output);
                         }
                     }
                 }
 
                 if (!logs.IsEmpty)
                 {
-                    var logArray = logs.ToArray ();
+                    var logArray = logs.ToArray();
                     foreach (var logEvent in logArray)
                     {
-                        formatter.Format (logEvent, output);
+                        formatter.Format(logEvent, output);
                     }
                 }
 
-                output.Flush ();
+                output.Flush();
 
-                outputStream.Seek (0, SeekOrigin.Begin);
-                using var streamReader = new StreamReader (outputStream, encoding);
-                result = streamReader.ReadToEnd ();
+                outputStream.Seek(0, SeekOrigin.Begin);
+                using var streamReader = new StreamReader(outputStream, encoding);
+                result = streamReader.ReadToEnd();
 
 
             }

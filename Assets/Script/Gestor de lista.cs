@@ -17,7 +17,7 @@ public class Gestordelista : MonoBehaviour
     float diferencia = 400f;
 
     [HideInInspector]
-    public static List<string> listaFinal = new List<string> ();
+    public List<string> listaFinal = new List<string> ();
 
     public TextMeshProUGUI TextPrefab { get => textPrefab; set => textPrefab = value; }
     public Button PrefabBotton { get => prefabBotton; set => prefabBotton = value; }
@@ -37,7 +37,7 @@ public class Gestordelista : MonoBehaviour
 
         foreach (string articulos in todosLosProductos)
         {
-            InstanciarBoton (articulos);
+            InstantiateButton (articulos);
         }
 
     }
@@ -217,7 +217,7 @@ public class Gestordelista : MonoBehaviour
     {
         return listP.OrderBy (x => x).ToList ();
     }
-    private void InstanciarBoton ( string nombreArticulo )
+    private void InstantiateButton ( string nombreArticulo )
     {
         GameObject manager = GameObject.Find ("Manager");
         Gestordelista script = manager.GetComponentInChildren<Gestordelista> ();
@@ -261,5 +261,18 @@ public class Gestordelista : MonoBehaviour
 
     }
 
+    public void SendList ()
+    {
+        Gestordebotones gestordebotones = FindObjectOfType<Gestordebotones> ();
+
+        gestordebotones.ReceiveAndPrintList (listaFinal);
+
+    }
 }
+
+
+
+
+
+
 

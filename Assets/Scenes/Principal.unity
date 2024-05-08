@@ -1646,14 +1646,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1626799607}
-        m_TargetAssemblyTypeName: Gestordebotones, Assembly-CSharp
-        m_MethodName: ChargeListFinal
+      - m_Target: {fileID: 1626799606}
+        m_TargetAssemblyTypeName: Gestordelista, Assembly-CSharp
+        m_MethodName: SendList
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1745,6 +1745,7 @@ MonoBehaviour:
   prefabBotton: {fileID: 5432950935467389178, guid: 84f06961d5feb484c8b1aa93c5736d0d, type: 3}
   content: {fileID: 203792836}
   diferencia: 400
+  listaFinal: []
 --- !u!114 &1626799607
 MonoBehaviour:
   m_ObjectHideFlags: 0

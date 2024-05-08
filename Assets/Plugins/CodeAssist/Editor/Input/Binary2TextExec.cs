@@ -1,7 +1,15 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using UnityEditor;
+using UnityEngine;
+
+
+#pragma warning disable IDE0005
+using Serilog = Meryel.UnityCodeAssist.Serilog;
+#pragma warning restore IDE0005
 
 
 #nullable enable
@@ -16,21 +24,21 @@ namespace Meryel.UnityCodeAssist.Editor.Input
     // </summary>
     public class Binary2TextExec : EditorToolExec
     {
-        public Binary2TextExec () : base ("binary2text") { }
+        public Binary2TextExec() : base("binary2text") { }
 
         // <summary>
         // bin2text filePath outPath options
         // /summary>
-        public int Exec ( string filePath, string outPath, string options )
+        public int Exec(string filePath, string outPath, string options)
         {
-            var args = string.Format (@"""{0}"" ""{1}"" {2}", filePath, outPath, options);
-            return Exec (args);
+            var args = string.Format(@"""{0}"" ""{1}"" {2}", filePath, outPath, options);
+            return Exec(args);
         }
 
-        public int Exec ( string filePath, string outPath, bool detailed = false, bool largeBinaryHashOnly = false, bool hexFloat = false )
+        public int Exec(string filePath, string outPath, bool detailed = false, bool largeBinaryHashOnly = false, bool hexFloat = false)
         {
             //var args = string.Format(@"""{0}"" ""{1}"" {2}", filePath, outPath, options);
-            var args = string.Format (@"""{0}"" ""{1}""", filePath, outPath);
+            var args = string.Format(@"""{0}"" ""{1}""", filePath, outPath);
 
             if (detailed)
                 args += " -detailed";
@@ -39,7 +47,7 @@ namespace Meryel.UnityCodeAssist.Editor.Input
             if (hexFloat)
                 args += " -hexfloat";
 
-            return Exec (args);
+            return Exec(args);
         }
     }
 
@@ -88,18 +96,18 @@ namespace Meryel.UnityCodeAssist.Editor.Input
         // mExecFname : 実行ファイル名
         // </param>
         // /summary>
-        public EditorToolExec ( string mExecFname )
+        public EditorToolExec(string mExecFname)
         {
-            mEditorPath = Path.GetDirectoryName (EditorApplication.applicationPath);
-            mToolsPath = Path.Combine (mEditorPath, @"Data/Tools");
+            mEditorPath = Path.GetDirectoryName(EditorApplication.applicationPath);
+            mToolsPath = Path.Combine(mEditorPath, @"Data/Tools");
             this.mExecFname = mExecFname;
             //var files = Directory.GetFiles(mToolsPath, mExecFname, SearchOption.AllDirectories);
-            var files = Directory.GetFiles (mEditorPath, mExecFname + "*", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(mEditorPath, mExecFname + "*", SearchOption.AllDirectories);
 
             if (files.Length == 0)
-                Serilog.Log.Error ("{App} app couldn't be found at {Path}", mExecFname, mEditorPath);
+                Serilog.Log.Error("{App} app couldn't be found at {Path}", mExecFname, mEditorPath);
 
-            mExecFullPath = files [0];
+            mExecFullPath = files[0];
         }
 
         // <summary> 
@@ -108,28 +116,28 @@ namespace Meryel.UnityCodeAssist.Editor.Input
         // arg : コマンドラインツールに渡す引数 
         // </param>
         // </summary>
-        public int Exec ( string arg )
+        public int Exec(string arg)
         {
             int exitCode = -1;
 
             try
             {
-                using var process = new Process ();
+                using var process = new Process();
                 process.StartInfo.FileName = mExecFullPath;
                 process.StartInfo.Arguments = arg;
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.CreateNoWindow = true;
-                process.Start ();
-                mOutput = process.StandardOutput.ReadToEnd ();
-                process.WaitForExit ();
+                process.Start();
+                mOutput = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
                 exitCode = process.ExitCode;
-                process.Close ();
+                process.Close();
             }
             catch (Exception e)
             {
                 //UnityEngine.Debug.Log(e);
-                Serilog.Log.Error (e, "Exception while running process at {Scope}.{Location}", nameof (EditorToolExec), nameof (Exec));
+                Serilog.Log.Error(e, "Exception while running process at {Scope}.{Location}", nameof(EditorToolExec), nameof(Exec));
             }
 
             return exitCode;

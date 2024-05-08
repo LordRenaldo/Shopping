@@ -1,5 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Concurrent;
+using UnityEngine;
 using UnityEditor;
+
+
+#pragma warning disable IDE0005
+using Serilog = Meryel.UnityCodeAssist.Serilog;
+#pragma warning restore IDE0005
 
 
 #nullable enable
@@ -8,25 +16,30 @@ using UnityEditor;
 namespace Meryel.UnityCodeAssist.Editor
 {
 
-    [InitializeOnLoad]
+    //[InitializeOnLoad]
     public static class MainThreadDispatcher
     {
         readonly static ConcurrentBag<System.Action> actions;
 
-        static MainThreadDispatcher ()
+        static MainThreadDispatcher()
         {
-            actions = new ConcurrentBag<System.Action> ();
+            actions = new ConcurrentBag<System.Action>();
             EditorApplication.update += Update;
         }
 
-        static void Update ()
+        /// <summary>
+        /// Empty method for invoking static class ctor
+        /// </summary>
+        public static void Bump() {}
+
+        static void Update()
         {
-            while (actions.TryTake (out var action))
+            while (actions.TryTake(out var action))
             {
-                action.Invoke ();
+                action.Invoke();
             }
         }
 
-        public static void Add ( System.Action action ) => actions.Add (action);
+        public static void Add(System.Action action) => actions.Add(action);
     }
 }

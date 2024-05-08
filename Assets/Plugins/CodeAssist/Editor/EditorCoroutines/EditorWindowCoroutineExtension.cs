@@ -40,9 +40,9 @@ namespace Meryel.UnityCodeAssist.Editor.EditorCoroutines
         /// </summary>
         /// <param name="routine"></param>
         /// <returns></returns>
-        public static EditorCoroutine StartCoroutine ( this EditorWindow window, IEnumerator routine )
+        public static EditorCoroutine StartCoroutine(this EditorWindow window, IEnumerator routine)
         {
-            return new EditorCoroutine (routine, window);
+            return new EditorCoroutine(routine, window);
         }
 
         /// <summary>
@@ -78,17 +78,17 @@ namespace Meryel.UnityCodeAssist.Editor.EditorCoroutines
         /// </code>
         /// </summary>
         /// <param name="coroutine"></param>
-        public static void StopCoroutine ( this EditorWindow window, EditorCoroutine coroutine )
+        public static void StopCoroutine(this EditorWindow window, EditorCoroutine coroutine)
         {
-            if (coroutine == null)
+            if(coroutine == null)
             {
-                Debug.LogAssertion ("Provided EditorCoroutine handle is null.");
+                Debug.LogAssertion("Provided EditorCoroutine handle is null.");
                 return;
             }
 
-            if (coroutine.m_Owner == null)
+            if(coroutine.m_Owner == null)
             {
-                Debug.LogError ("The EditorCoroutine is ownerless. Please use EditorCoroutineEditor.StopCoroutine to terminate such coroutines.");
+                Debug.LogError("The EditorCoroutine is ownerless. Please use EditorCoroutineEditor.StopCoroutine to terminate such coroutines.");
                 return;
             }
 
@@ -99,11 +99,11 @@ namespace Meryel.UnityCodeAssist.Editor.EditorCoroutines
 
             if (owner == null || owner != null && owner != window)
             {
-                Debug.LogErrorFormat ("The EditorCoroutine is owned by another object: {0}.", coroutine.m_Owner.Target);
+                Debug.LogErrorFormat("The EditorCoroutine is owned by another object: {0}.", coroutine.m_Owner.Target);
                 return;
             }
 
-            EditorCoroutineUtility.StopCoroutine (coroutine);
+            EditorCoroutineUtility.StopCoroutine(coroutine);
         }
     }
 }
