@@ -9,8 +9,6 @@ public class Gestordebotones : MonoBehaviour
         SceneManager.LoadScene (scenaP);
     }
 
-
-
     public void ReceiveAndPrintList ( List<string> listaRecibida )
     {
         foreach (string elemento in listaRecibida)
@@ -25,9 +23,22 @@ public class Gestordebotones : MonoBehaviour
             Debug.Log (boton + " destruido");
             Destroy (boton);
         }
+        Gestordelista gestordelista = FindObjectOfType<Gestordelista> ();
+        gestordelista.DisplayFinalListItems ();
 
+    }
 
-
+    public void ExitApp ()
+    {
+        if (Application.isEditor)
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+        }
+        else
+        {
+            Application.Quit ();
+        }
+        Debug.Log ("Aplicación cerrada");
     }
 }
 

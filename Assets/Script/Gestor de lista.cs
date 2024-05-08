@@ -256,11 +256,11 @@ public class Gestordelista : MonoBehaviour
             TextMeshProUGUI newText = Instantiate (TextPrefab, Content.transform);
             newText.transform.localPosition = UltimaPosicion;
             UltimaPosicion -= new Vector3 (0f, Diferencia, 0f);
+            newText.text = item;
             Debug.Log ("DisplayFinalListItems llamado");
         }
 
     }
-
     public void SendList ()
     {
         Gestordebotones gestordebotones = FindObjectOfType<Gestordebotones> ();
