@@ -14,7 +14,9 @@ public class Gestordelista : MonoBehaviour
     Vector3 ultimaPosicion;
     [HideInInspector]
     public List<string> listaFinal = new List<string> ();
-
+    Gestordebotones gestordebotones;
+    [HideInInspector]
+    public string articulo;
     void Start ()
     {
 
@@ -22,7 +24,7 @@ public class Gestordelista : MonoBehaviour
 
     void Awake ()
     {
-
+        gestordebotones = FindObjectOfType<Gestordebotones> ();
     }
 
     public List<string> CreateListOfAllArticles ( List<string> list1P, List<string> list2P )
@@ -33,7 +35,6 @@ public class Gestordelista : MonoBehaviour
         newlist.Reverse ();
         return newlist;
     }
-
     public List<string> CreateAListOfNonPerishable ()
     {
         var articles = new List<string>
@@ -45,7 +46,6 @@ public class Gestordelista : MonoBehaviour
         articles.Sort ();
         return articles;
     }
-
     public List<string> CreateListOfFruitsAndVegetables ()
     {
         var fruitsAndVegetables = new List<string>
@@ -67,13 +67,13 @@ public class Gestordelista : MonoBehaviour
         fruitsAndVegetables.Sort ();
         return fruitsAndVegetables;
     }
-
     public void addToNewList ( string ArticuloP )
     {
-        listaFinal.Add (ArticuloP);
-        Debug.Log (ArticuloP + " Agregado a la lista de compras");
+        var ScrollView = GameObject.Find ("Scroll View");
+        ScrollView.SetActive (false);
+        gestordebotones.ChangePanel (1);
+        articulo = ArticuloP;
     }
-
     public void PrintFinalListItems ()
     {
         Debug.Log ("Lista de compras final");
@@ -82,7 +82,6 @@ public class Gestordelista : MonoBehaviour
             Debug.Log (item);
         }
     }
-
     public void DisplayFinalListItems ()
     {
         if (content == null)
@@ -105,10 +104,9 @@ public class Gestordelista : MonoBehaviour
             newText.text = item;
         }
     }
-
     public void SendList ()
     {
-        var gestordebotones = FindObjectOfType<Gestordebotones> ();
+
         gestordebotones.ReceiveAndPrintList (listaFinal);
     }
 }
