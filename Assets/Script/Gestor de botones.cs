@@ -40,19 +40,22 @@ public class Gestordebotones : MonoBehaviour
     GameObject content;
     [SerializeField]
     float diferencia = 400f;
-
+    [SerializeField]
+    GameObject BotonCrearLista;
     [HideInInspector]
     public float cantidad = 1f;
     [HideInInspector]
     public string buttonText;
-
+    [Space (40)]
     Vector3 ultimaPosicion;
     private Gestordelista gestordelista;
     private List<string> todosLosProductos;
 
+
     private void Awake ()
     {
         gestordelista = FindObjectOfType<Gestordelista> ();
+
     }
     public void Start ()
     {
@@ -120,17 +123,20 @@ public class Gestordebotones : MonoBehaviour
     {
         if (panelP == 0)
         {
+            BotonCrearLista.SetActive (true);
             scrollView.SetActive (true);
             panel1.SetActive (false);
             panel2.SetActive (false);
         }
         else if (panelP == 1)
         {
+            BotonCrearLista.SetActive (false);
             panel1.SetActive (true);
             panel2.SetActive (false);
         }
         else if (panelP == 2)
         {
+            BotonCrearLista.SetActive (false);
             panel1.SetActive (false);
             panel2.SetActive (true);
         }
@@ -172,16 +178,16 @@ public class Gestordebotones : MonoBehaviour
     }
     public void ButtonOK ()
     {
-        string mensaje = $"Se ha agregado {cantidad} {buttonText} de {gestordelista.articulo} a la lista";
+        string mensaje = $"Se ha agregado  {cantidad}  {buttonText} de {gestordelista.articulo} a la lista";
 
         gestordelista.listaFinal.Add (gestordelista.articulo + " " + cantidad + " " + buttonText);
 
         textInformativo.text = mensaje;
-
         Debug.Log (gestordelista.articulo + " " + cantidad + " " + buttonText + " agregado a la lista ");
 
         ChangePanel (0);
-
+        cantidad = 1;
+        textNumero.text = "1";
     }
     public void ExitApp ()
     {
