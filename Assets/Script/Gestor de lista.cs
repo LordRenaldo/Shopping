@@ -15,7 +15,8 @@ public class Gestordelista : MonoBehaviour
     [HideInInspector]
     public List<string> listaFinal = new List<string> ();
     Gestordebotones gestordebotones;
-    [HideInInspector]
+    [SerializeField]
+    GameObject dropdown;
     public string articulo;
     void Start ()
     {
@@ -32,7 +33,6 @@ public class Gestordelista : MonoBehaviour
         var newlist = new List<string> (list1P);
         newlist.AddRange (list2P);
         newlist.Sort ();
-        newlist.Reverse ();
         return newlist;
     }
     public List<string> CreateAListOfNonPerishable ()
@@ -41,7 +41,7 @@ public class Gestordelista : MonoBehaviour
             {
                 "Arroz", "Fideos", "Laminas de pasticho", "Azucar", "Sal", "Leche liquida", "Leche en polvo", "Harina pan",
                 "Harina maiz", "Harina pizza", "Harina leudante", "Pure de tomate", "Yogur Liquido", "Yogur firme", "Salchicha",
-                "Pan de pancho", "Mostaza", "Mayonesa", "Ketchup", "Manteca", "Margarina", "Grasa vegetal", "Poroto", "Pochoclo"
+                "Pan de pancho", "Mostaza", "Mayonesa", "Ketchup", "Manteca", "Margarina", "Grasa vegetal", "Poroto", "Pochoclo","Leña"
             };
         articles.Sort ();
         return articles;
@@ -62,7 +62,7 @@ public class Gestordelista : MonoBehaviour
                 "Papaya", "Papin", "Pepinillo", "Oregano", "Pepino", "Pera", "Perejil", "Pimiento amarillo", "Pimiento Rojo",
                 "Pimiento verde", "Platano", "Pomelo", "Puerro", "Rabanito", "Remolacha", "Repollo blanco", "Repollo morado",
                 "Romero", "Rucula", "Tomate perita", "Tomate", "Tomillo", "Menta", "Uva red globe", "Uva moscatela", "Uva blanca",
-                "Apio españa", "Verdeo", "Zanahoria", "Zanahoria bb", "Zanahoria ", "Leña"
+                "Apio españa", "Verdeo", "Zanahoria", "Zanahoria bb", "Zanahoria "
             };
         fruitsAndVegetables.Sort ();
         return fruitsAndVegetables;
@@ -109,6 +109,48 @@ public class Gestordelista : MonoBehaviour
 
         gestordebotones.ReceiveAndPrintList (listaFinal);
     }
+    public void Dropdown ()
+    {
+        var dropdown = GameObject.Find ("Dropdown");
+        var dropdownComponent = dropdown.GetComponent<TMP_Dropdown> ();
+        var selectedValue = dropdownComponent.options [dropdownComponent.value].text;
+        var list1 = CreateAListOfNonPerishable ();
+        var list2 = CreateListOfFruitsAndVegetables ();
+        var list3 = CreateListOfAllArticles (list1, list2);
+
+        foreach (Transform child in content.transform)
+        {
+            GameObject.Destroy (child.gameObject);
+        }
+
+        if (selectedValue == "Todos los articulos")
+        {
+
+            foreach (var item in list3)
+            {
+                gestordebotones.InstantiateButton (item);
+            }
+        }
+
+        else if (selectedValue == "Super mercado")
+        {
+
+            foreach (var item in list1)
+            {
+                gestordebotones.InstantiateButton (item);
+            }
+        }
+        else if (selectedValue == "Frutas y verduras")
+        {
+
+            foreach (var item in list2)
+            {
+                gestordebotones.InstantiateButton (item);
+            }
+        }
+    }
+
+
 }
 
 

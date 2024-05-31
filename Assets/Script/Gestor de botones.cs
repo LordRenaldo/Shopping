@@ -103,7 +103,7 @@ public class Gestordebotones : MonoBehaviour
         BotonCrearLista.GetComponent<Button> ().onClick.AddListener (() => { ChangeOfScene (1); });
 
     }
-    private void InstantiateButton ( string nombreArticuloP )
+    public void InstantiateButton ( string nombreArticuloP )
     {
         Debug.Log ("entro en el ciclo de instanciar botones");
         var newButton = Instantiate (prefabBotton, content.transform);
