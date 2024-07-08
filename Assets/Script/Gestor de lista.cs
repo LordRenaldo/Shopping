@@ -17,11 +17,8 @@ public class Gestordelista : MonoBehaviour
     Gestordebotones gestordebotones;
     [SerializeField]
     GameObject dropdown;
+    [HideInInspector]
     public string articulo;
-    void Start ()
-    {
-
-    }
 
     void Awake ()
     {
@@ -35,6 +32,7 @@ public class Gestordelista : MonoBehaviour
         newlist.Sort ();
         return newlist;
     }
+
     public List<string> CreateAListOfNonPerishable ()
     {
         var articles = new List<string>
@@ -46,6 +44,7 @@ public class Gestordelista : MonoBehaviour
         articles.Sort ();
         return articles;
     }
+
     public List<string> CreateListOfFruitsAndVegetables ()
     {
         var fruitsAndVegetables = new List<string>
@@ -67,6 +66,7 @@ public class Gestordelista : MonoBehaviour
         fruitsAndVegetables.Sort ();
         return fruitsAndVegetables;
     }
+
     public void addToNewList ( string ArticuloP )
     {
         var ScrollView = GameObject.Find ("Scroll View");
@@ -74,6 +74,7 @@ public class Gestordelista : MonoBehaviour
         gestordebotones.ChangePanel (1);
         articulo = ArticuloP;
     }
+
     public void PrintFinalListItems ()
     {
         Debug.Log ("Lista de compras final");
@@ -82,6 +83,7 @@ public class Gestordelista : MonoBehaviour
             Debug.Log (item);
         }
     }
+
     public void DisplayFinalListItems ()
     {
         if (content == null)
@@ -104,11 +106,14 @@ public class Gestordelista : MonoBehaviour
             newText.text = item;
         }
     }
+
     public void SendList ()
     {
 
         gestordebotones.ReceiveAndPrintList (listaFinal);
+        gestordebotones.instantiateExportListButton ();
     }
+
     public void Dropdown ()
     {
         var dropdown = GameObject.Find ("Dropdown");
@@ -149,8 +154,6 @@ public class Gestordelista : MonoBehaviour
             }
         }
     }
-
-
 }
 
 

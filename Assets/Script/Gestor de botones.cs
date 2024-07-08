@@ -33,9 +33,13 @@ public class Gestordebotones : MonoBehaviour
 
     [Header ("Componentes de la U.I.")]
     [SerializeField]
+    Transform canvas;
+    [SerializeField]
     TextMeshProUGUI textInformativo;
     [SerializeField]
     Button prefabBotton;
+    [SerializeField]
+    Button prefabBotton2;
     [SerializeField]
     GameObject content;
     [SerializeField]
@@ -50,13 +54,16 @@ public class Gestordebotones : MonoBehaviour
     Vector3 ultimaPosicion;
     private Gestordelista gestordelista;
     private List<string> todosLosProductos;
-
+    [HideInInspector]
+    string mensaje;
+    Gestordearchivos gestordearchivos;
 
     private void Awake ()
     {
         gestordelista = FindObjectOfType<Gestordelista> ();
-
+        gestordearchivos = FindObjectOfType<Gestordearchivos> ();
     }
+
     public void Start ()
     {
         panel1.SetActive (false);
@@ -69,10 +76,12 @@ public class Gestordebotones : MonoBehaviour
             InstantiateButton (articulos);
         }
     }
+
     public void ChangeOfScene ( int scenaP )
     {
         SceneManager.LoadScene (scenaP);
     }
+
     public void Retrea ()
     {
         SceneManager.LoadScene (1);
@@ -83,6 +92,7 @@ public class Gestordebotones : MonoBehaviour
             InstantiateButton (articulos);
         }
     }
+
     public void ReceiveAndPrintList ( List<string> listaRecibidaP )
     {
         foreach (string elemento in listaRecibidaP)
@@ -95,7 +105,8 @@ public class Gestordebotones : MonoBehaviour
         {
             Destroy (boton);
         }
-
+        mensaje = "";
+        textInformativo.text = mensaje;
         gestordelista.DisplayFinalListItems ();
         var BotonCrearLista = GameObject.Find ("Button crear lista");
         var textNewBoton = BotonCrearLista.GetComponentInChildren<TextMeshProUGUI> ();
@@ -103,9 +114,28 @@ public class Gestordebotones : MonoBehaviour
         BotonCrearLista.GetComponent<Button> ().onClick.AddListener (() => { ChangeOfScene (1); });
 
     }
+
+    public void instantiateExportListButton ()
+    {
+        Vector3 posicion = new Vector3 (1f, -4.25f, 0f);
+        Quaternion rotacion = Quaternion.identity;
+        var BotonExportarLista = Instantiate (prefabBotton2, posicion, rotacion, canvas);
+        RectTransform rectTransform = BotonExportarLista.GetComponent<RectTransform> ();
+        rectTransform.localPosition = new Vector3 (rectTransform.localPosition.x, rectTransform.localPosition.y, 0);
+        BotonExportarLista.GetComponent<Button> ().onClick.AddListener (() => { gestordearchivos.SaveListToFile (gestordelista.listaFinal); });
+
+    }
+
     public void InstantiateButton ( string nombreArticuloP )
     {
         Debug.Log ("entro en el ciclo de instanciar botones");
+
+        // Verifica si es el primer botón a instanciar ajustando su posición inicial
+        if (ultimaPosicion == Vector3.zero)
+        {
+            ultimaPosicion -= new Vector3 (0f, diferencia / 2, 0f);
+        }
+
         var newButton = Instantiate (prefabBotton, content.transform);
         newButton.onClick.AddListener (() =>
         {
@@ -119,6 +149,7 @@ public class Gestordebotones : MonoBehaviour
         newButton.transform.localPosition = ultimaPosicion;
         ultimaPosicion -= new Vector3 (0f, diferencia, 0f);
     }
+
     public void ChangePanel ( int panelP )
     {
         if (panelP == 0)
@@ -140,8 +171,8 @@ public class Gestordebotones : MonoBehaviour
             panel1.SetActive (false);
             panel2.SetActive (true);
         }
-
     }
+
     public void ButtonClicked ( Button button )
     {
         TextMeshProUGUI textMeshComponent = button.GetComponentInChildren<TextMeshProUGUI> ();
@@ -153,6 +184,7 @@ public class Gestordebotones : MonoBehaviour
         }
         ChangePanel (2);
     }
+
     public void QuantitySelector ( Button buttonP )
     {
         if (buttonP.name == "Button subir")
@@ -176,19 +208,21 @@ public class Gestordebotones : MonoBehaviour
             bajar.interactable = true;
         }
     }
+
     public void ButtonOK ()
     {
-        string mensaje = $"Se ha agregado  {cantidad}  {buttonText} de {gestordelista.articulo} a la lista";
+        mensaje = $"Se ha agregado  {cantidad}  {buttonText} de {gestordelista.articulo} a la lista.";
 
-        gestordelista.listaFinal.Add (gestordelista.articulo + " " + cantidad + " " + buttonText);
+        gestordelista.listaFinal.Add (gestordelista.articulo + " " + cantidad + " " + buttonText + ".");
 
         textInformativo.text = mensaje;
-        Debug.Log (gestordelista.articulo + " " + cantidad + " " + buttonText + " agregado a la lista ");
+        Debug.Log (gestordelista.articulo + " " + cantidad + " " + buttonText + " agregado a la lista.");
 
         ChangePanel (0);
         cantidad = 1;
         textNumero.text = "1";
     }
+
     public void ExitApp ()
     {
 #if UNITY_EDITOR

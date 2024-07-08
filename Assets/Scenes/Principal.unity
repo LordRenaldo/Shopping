@@ -813,7 +813,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 1
-  m_StartCorner: 3
+  m_StartCorner: 1
   m_StartAxis: 0
   m_CellSize: {x: 700, y: 200}
   m_Spacing: {x: 100, y: 100}
@@ -4463,6 +4463,7 @@ GameObject:
   - component: {fileID: 1626799605}
   - component: {fileID: 1626799607}
   - component: {fileID: 1626799606}
+  - component: {fileID: 1626799608}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -4523,13 +4524,27 @@ MonoBehaviour:
   subir: {fileID: 1137715447}
   bajar: {fileID: 1463168691}
   textNumero: {fileID: 48346306}
+  canvas: {fileID: 831479753}
   textInformativo: {fileID: 2013692029}
   prefabBotton: {fileID: 5432950935467389178, guid: 84f06961d5feb484c8b1aa93c5736d0d, type: 3}
+  prefabBotton2: {fileID: 7193587467303776835, guid: 2b823ae61a23c8f4b88208090b53211f, type: 3}
   content: {fileID: 203792836}
   diferencia: 400
   BotonCrearLista: {fileID: 1410808365}
   cantidad: 1
   buttonText: 
+--- !u!114 &1626799608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626799604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a655fbf03ec207644a459da9faa4824f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1705897639
 GameObject:
   m_ObjectHideFlags: 0
