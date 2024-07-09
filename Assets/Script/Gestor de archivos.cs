@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Gestordearchivos : MonoBehaviour
@@ -17,12 +18,19 @@ public class Gestordearchivos : MonoBehaviour
     {
         return String.Join (delimitador, lista);
     }
+
     public void SaveListToFile<T> ( List<T> lista )
     {
         archivo = ConvertListAString (lista);
-        //imprime el contenido de archivo en la consola
+        CreateFile ();
+
         Debug.Log ("Línea 1\nLínea 2\nLínea 3");
         Debug.Log ("El contenido del archivo es " + archivo);
+    }
+
+    public void CreateFile ()
+    {
+        File.WriteAllText ("Lista de compras.txt", archivo);
     }
 
 }

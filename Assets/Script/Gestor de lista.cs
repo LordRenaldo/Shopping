@@ -16,7 +16,7 @@ public class Gestordelista : MonoBehaviour
     public List<string> listaFinal = new List<string> ();
     Gestordebotones gestordebotones;
     [SerializeField]
-    GameObject dropdown;
+    public GameObject dropdown;
     [HideInInspector]
     public string articulo;
 
