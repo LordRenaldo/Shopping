@@ -24,13 +24,13 @@ public class Gestordearchivos : MonoBehaviour
         archivo = ConvertListAString (lista);
         CreateFile ();
 
-        Debug.Log ("Línea 1\nLínea 2\nLínea 3");
         Debug.Log ("El contenido del archivo es " + archivo);
     }
 
     public void CreateFile ()
     {
         File.WriteAllText ("Lista de compras.txt", archivo);
+        gestordebotones.ChangePanel (3);
     }
 
 }

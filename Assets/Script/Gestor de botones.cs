@@ -13,6 +13,8 @@ public class Gestordebotones : MonoBehaviour
     GameObject panel1;
     [SerializeField]
     GameObject panel2;
+    [SerializeField]
+    GameObject panel3;
     [Space (10)]
 
     [Header ("Botones panel 1")]
@@ -29,6 +31,13 @@ public class Gestordebotones : MonoBehaviour
     Button bajar;
     [SerializeField]
     TextMeshProUGUI textNumero;
+    [Space (10)]
+
+    [Header ("Botones panel 3")]
+    [SerializeField]
+    Button SI;
+    [SerializeField]
+    Button NO;
     [Space (40)]
 
     [Header ("Componentes de la U.I.")]
@@ -170,6 +179,13 @@ public class Gestordebotones : MonoBehaviour
             BotonCrearLista.SetActive (false);
             panel1.SetActive (false);
             panel2.SetActive (true);
+        }
+        else if (panelP == 3)
+        {
+            BotonCrearLista.SetActive (false);
+            panel1.SetActive (false);
+            panel2.SetActive (false);
+            panel3.SetActive (true);
         }
     }
 
