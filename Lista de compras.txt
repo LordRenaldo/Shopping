@@ -1,3 +1,5 @@
-Acelga 1 Kilogramos.
-Aji picante 1 Kilogramos.
-Aji rocoto 1 Kilogramos.
+Aji amarillo 1 Kilogramos.
+Aji rocoto 1 Unidades.
+Ajo 1 Unidades.
+Albahaca 1 Unidades.
+Coco 5 Unidades.

@@ -15,6 +15,8 @@ public class Gestordebotones : MonoBehaviour
     GameObject panel2;
     [SerializeField]
     GameObject panel3;
+    [SerializeField]
+    GameObject panelSalir;
     [Space (10)]
 
     [Header ("Botones panel 1")]
@@ -38,7 +40,13 @@ public class Gestordebotones : MonoBehaviour
     Button SI;
     [SerializeField]
     Button NO;
-    [Space (40)]
+    [Space (10)]
+
+    [Header ("Botones panel 4")]
+    [SerializeField]
+    Button salirSI;
+    [SerializeField]
+    Button salirNO;
 
     [Header ("Componentes de la U.I.")]
     [SerializeField]
@@ -77,6 +85,8 @@ public class Gestordebotones : MonoBehaviour
     {
         panel1.SetActive (false);
         panel2.SetActive (false);
+        panel3.SetActive (false);
+        panelSalir.SetActive (false);
         ultimaPosicion = Vector3.zero;
         todosLosProductos = gestordelista.CreateListOfAllArticles (gestordelista.CreateAListOfNonPerishable (), gestordelista.CreateListOfFruitsAndVegetables ());
 
@@ -167,18 +177,24 @@ public class Gestordebotones : MonoBehaviour
             scrollView.SetActive (true);
             panel1.SetActive (false);
             panel2.SetActive (false);
+            panel3.SetActive (false);
+            panelSalir.SetActive (false);
         }
         else if (panelP == 1)
         {
             BotonCrearLista.SetActive (false);
             panel1.SetActive (true);
             panel2.SetActive (false);
+            panel3.SetActive (false);
+            panelSalir.SetActive (false);
         }
         else if (panelP == 2)
         {
             BotonCrearLista.SetActive (false);
             panel1.SetActive (false);
             panel2.SetActive (true);
+            panel3.SetActive (false);
+            panelSalir.SetActive (false);
         }
         else if (panelP == 3)
         {
@@ -186,6 +202,15 @@ public class Gestordebotones : MonoBehaviour
             panel1.SetActive (false);
             panel2.SetActive (false);
             panel3.SetActive (true);
+            panelSalir.SetActive (false);
+        }
+        else if (panelP == 4)
+        {
+            BotonCrearLista.SetActive (false);
+            panel1.SetActive (false);
+            panel2.SetActive (false);
+            panel3.SetActive (false);
+            panelSalir.SetActive (true);
         }
     }
 
@@ -237,6 +262,11 @@ public class Gestordebotones : MonoBehaviour
         ChangePanel (0);
         cantidad = 1;
         textNumero.text = "1";
+    }
+
+    public void ButtonSalir ()
+    {
+        ChangePanel (4);
     }
 
     public void ExitApp ()
