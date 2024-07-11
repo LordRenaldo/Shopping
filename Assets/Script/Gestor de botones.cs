@@ -50,9 +50,11 @@ public class Gestordebotones : MonoBehaviour
 
     [Header ("Componentes de la U.I.")]
     [SerializeField]
+    public TextMeshProUGUI titulo;
+    [SerializeField]
     Transform canvas;
     [SerializeField]
-    TextMeshProUGUI textInformativo;
+    public TextMeshProUGUI textInformativo;
     [SerializeField]
     Button prefabBotton;
     [SerializeField]
@@ -69,10 +71,12 @@ public class Gestordebotones : MonoBehaviour
     public string buttonText;
     [Space (40)]
     Vector3 ultimaPosicion;
-    private Gestordelista gestordelista;
+    [HideInInspector]
+    public Gestordelista gestordelista;
     private List<string> todosLosProductos;
     [HideInInspector]
-    string mensaje;
+    public string mensaje;
+    [HideInInspector]
     Gestordearchivos gestordearchivos;
 
     private void Awake ()
@@ -214,9 +218,9 @@ public class Gestordebotones : MonoBehaviour
         }
     }
 
-    public void ButtonClicked ( Button button )
+    public void ButtonClicked ( Button buttonP )
     {
-        TextMeshProUGUI textMeshComponent = button.GetComponentInChildren<TextMeshProUGUI> ();
+        TextMeshProUGUI textMeshComponent = buttonP.GetComponentInChildren<TextMeshProUGUI> ();
         if (textMeshComponent != null)
         {
             // Almacenar el texto del botón en la variable de instancia

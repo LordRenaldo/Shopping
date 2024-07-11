@@ -2727,8 +2727,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 126
-  m_fontSizeBase: 126
+  m_fontSize: 120
+  m_fontSizeBase: 120
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5953,6 +5953,7 @@ MonoBehaviour:
   NO: {fileID: 1197173526}
   salirSI: {fileID: 1017204068}
   salirNO: {fileID: 1368459293}
+  titulo: {fileID: 615911635}
   canvas: {fileID: 831479753}
   textInformativo: {fileID: 2013692029}
   prefabBotton: {fileID: 5432950935467389178, guid: 84f06961d5feb484c8b1aa93c5736d0d, type: 3}

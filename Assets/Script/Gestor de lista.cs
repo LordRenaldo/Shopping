@@ -15,6 +15,8 @@ public class Gestordelista : MonoBehaviour
     [HideInInspector]
     public List<string> listaFinal = new List<string> ();
     Gestordebotones gestordebotones;
+    [HideInInspector]
+    public Gestordearchivos gestordearchivos;
     [SerializeField]
     public GameObject dropdown;
     [HideInInspector]
@@ -23,6 +25,7 @@ public class Gestordelista : MonoBehaviour
     void Awake ()
     {
         gestordebotones = FindObjectOfType<Gestordebotones> ();
+        gestordearchivos = FindObjectOfType<Gestordearchivos> ();
     }
 
     public List<string> CreateListOfAllArticles ( List<string> list1P, List<string> list2P )
@@ -39,7 +42,7 @@ public class Gestordelista : MonoBehaviour
             {
                 "Arroz", "Fideos", "Laminas de pasticho", "Azucar", "Sal", "Leche liquida", "Leche en polvo", "Harina pan",
                 "Harina maiz", "Harina pizza", "Harina leudante", "Pure de tomate", "Yogur Liquido", "Yogur firme", "Salchicha",
-                "Pan de pancho", "Mostaza", "Mayonesa", "Ketchup", "Manteca", "Margarina", "Grasa vegetal", "Poroto", "Pochoclo","Leña"
+                "Pan de pancho", "Mostaza", "Mayonesa", "Ketchup", "Manteca", "Margarina", "Grasa vegetal", "Poroto", "Pochoclo","Leña","Carbon","Alcohol en gel","Alcohol","Papel higienico","Jabon","Detergente","Desodorante","Shampoo","Acondicionador","Crema dental","Cepillo de dientes","Pasta dental","Pasta","ajo en polvo","Cebolla en polvo","Pimienta","Pimenton en polvo","Oregano","Comino","Curry","Canela","7 Especies","Sal fina","Sal gruesa","Azucar impalpable","Azucar negra","Azucar rubia","Azucar comun","Azucar light","Azucar de panela","fosforos","Pure de tomate"
             };
         articles.Sort ();
         return articles;
@@ -58,7 +61,7 @@ public class Gestordelista : MonoBehaviour
                 "Kiwi", "Laurel", "Lechuga mante", "Lechuga morada", "Lechuga repollada", "Lechuga romana", "Lechuga rulito",
                 "Lima", "Limon", "Limon regilla", "Mandarina", "Mandioca", "Mango", "Manzana roja", "Manzana verde", "Melon",
                 "Menbrillo", "Moras", "Nabos", "Naranja jugo", "Naranja", "Palta", "Papa", "Papa lavada", "Papa resto", "Papa roja",
-                "Papaya", "Papin", "Pepinillo", "Oregano", "Pepino", "Pera", "Perejil", "Pimiento amarillo", "Pimiento Rojo",
+                "Papaya", "Papin", "Pepinillo","Pepino", "Pera", "Perejil", "Pimiento amarillo", "Pimiento Rojo",
                 "Pimiento verde", "Platano", "Pomelo", "Puerro", "Rabanito", "Remolacha", "Repollo blanco", "Repollo morado",
                 "Romero", "Rucula", "Tomate perita", "Tomate", "Tomillo", "Menta", "Uva red globe", "Uva moscatela", "Uva blanca",
                 "Apio españa", "Verdeo", "Zanahoria", "Zanahoria bb", "Zanahoria "
@@ -75,10 +78,10 @@ public class Gestordelista : MonoBehaviour
         articulo = ArticuloP;
     }
 
-    public void PrintFinalListItems ()
+    public void PrintFinalListItems ( List<string> listaFinalP )
     {
         Debug.Log ("Lista de compras final");
-        foreach (var item in listaFinal)
+        foreach (var item in listaFinalP)
         {
             Debug.Log (item);
         }
@@ -86,6 +89,11 @@ public class Gestordelista : MonoBehaviour
 
     public void DisplayFinalListItems ()
     {
+        string mensaje = "Lista";
+
+        gestordebotones.titulo.text = mensaje;
+
+
         if (content == null)
         {
             Debug.LogError ("El objeto 'content' no existe.");
@@ -105,6 +113,35 @@ public class Gestordelista : MonoBehaviour
             ultimaPosicion -= new Vector3 (0f, diferencia, 0f);
             newText.text = item;
         }
+    }
+
+    public void DisplayLastList ()
+    {
+        gestordebotones.ChangeOfScene (2);
+        Destroy (dropdown);
+        Gestordearchivos gestordearchivos = FindObjectOfType<Gestordearchivos> ();
+        List<string> ultimaLista = gestordearchivos.ReadListOfFile ();
+
+
+        foreach (string elemento in ultimaLista)
+        {
+            Debug.Log (elemento);
+        }
+
+        foreach (var item in ultimaLista)
+        {
+            if (textPrefab == null)
+            {
+                Debug.LogError ("textPrefab no está asignado.");
+                return;
+            }
+            Debug.Log ("entro en instanciar lista");
+            var newText = Instantiate (textPrefab, content.transform);
+            newText.transform.localPosition = ultimaPosicion;
+            ultimaPosicion -= new Vector3 (0f, diferencia, 0f);
+            newText.text = item;
+        }
+
     }
 
     public void SendList ()

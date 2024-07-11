@@ -8,6 +8,7 @@ public class Gestordearchivos : MonoBehaviour
     Gestordelista gestordelista;
     Gestordebotones gestordebotones;
     protected string archivo;
+    public List<string> archivoLeido;
     private void Awake ()
     {
         gestordelista = FindObjectOfType<Gestordelista> ();
@@ -25,6 +26,13 @@ public class Gestordearchivos : MonoBehaviour
         CreateFile ();
 
         Debug.Log ("El contenido del archivo es " + archivo);
+    }
+
+    public List<string> ReadListOfFile ()
+    {
+        archivoLeido = new List<string> (File.ReadAllLines ("Lista de compras.txt"));
+
+        return archivoLeido;
     }
 
     public void CreateFile ()
