@@ -118,6 +118,8 @@ public class Gestordebotones : MonoBehaviour
 
     public void ReceiveAndPrintList ( List<string> listaRecibidaP )
     {
+        var botonCrearlista = GameObject.Find ("Button crear lista");
+        Destroy (botonCrearlista);
         foreach (string elemento in listaRecibidaP)
         {
             Debug.Log (elemento);
@@ -131,10 +133,15 @@ public class Gestordebotones : MonoBehaviour
         mensaje = "";
         textInformativo.text = mensaje;
         gestordelista.DisplayFinalListItems ();
-        var BotonCrearLista = GameObject.Find ("Button crear lista");
-        var textNewBoton = BotonCrearLista.GetComponentInChildren<TextMeshProUGUI> ();
-        textNewBoton.text = "Volver a la lista";
-        BotonCrearLista.GetComponent<Button> ().onClick.AddListener (() => { ChangeOfScene (1); });
+
+        Vector3 posicion = new Vector3 (-1.5f, -4.25f, 0f);
+        Quaternion rotacion = Quaternion.identity;
+        var BotonVolver = Instantiate (prefabBotton2, posicion, rotacion, canvas);
+        RectTransform rectTransform = BotonVolver.GetComponent<RectTransform> ();
+        rectTransform.localPosition = new Vector3 (rectTransform.localPosition.x, rectTransform.localPosition.y, 0);
+        var textBotonVolver = BotonVolver.GetComponentInChildren<TextMeshProUGUI> ();
+        textBotonVolver.text = "Volver a la lista";
+        BotonVolver.GetComponent<Button> ().onClick.AddListener (() => { ChangeOfScene (1); });
 
     }
 

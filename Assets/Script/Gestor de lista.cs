@@ -149,6 +149,7 @@ public class Gestordelista : MonoBehaviour
 
         gestordebotones.ReceiveAndPrintList (listaFinal);
         gestordebotones.instantiateExportListButton ();
+
     }
 
     public void Dropdown ()

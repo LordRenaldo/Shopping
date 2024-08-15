@@ -5925,6 +5925,7 @@ MonoBehaviour:
   diferencia: 400
   content: {fileID: 203792836}
   listaFinal: []
+  gestordearchivos: {fileID: 0}
   dropdown: {fileID: 442306494}
   articulo: 
 --- !u!114 &1626799607
@@ -5963,6 +5964,8 @@ MonoBehaviour:
   BotonCrearLista: {fileID: 1410808365}
   cantidad: 1
   buttonText: 
+  gestordelista: {fileID: 0}
+  mensaje: 
 --- !u!114 &1626799608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5975,6 +5978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a655fbf03ec207644a459da9faa4824f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  archivoLeido: []
 --- !u!1 &1705897639
 GameObject:
   m_ObjectHideFlags: 0
