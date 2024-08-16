@@ -119,7 +119,7 @@ public class Gestordebotones : MonoBehaviour
     public void ReceiveAndPrintList ( List<string> listaRecibidaP )
     {
         var botonCrearlista = GameObject.Find ("Button crear lista");
-        Destroy (botonCrearlista);
+        botonCrearlista.SetActive (false);
         foreach (string elemento in listaRecibidaP)
         {
             Debug.Log (elemento);
@@ -134,7 +134,7 @@ public class Gestordebotones : MonoBehaviour
         textInformativo.text = mensaje;
         gestordelista.DisplayFinalListItems ();
 
-        Vector3 posicion = new Vector3 (-1.5f, -4.25f, 0f);
+        Vector3 posicion = new Vector3 (-1.42f, -4.2f, 0f);
         Quaternion rotacion = Quaternion.identity;
         var BotonVolver = Instantiate (prefabBotton2, posicion, rotacion, canvas);
         RectTransform rectTransform = BotonVolver.GetComponent<RectTransform> ();
@@ -147,7 +147,19 @@ public class Gestordebotones : MonoBehaviour
 
     public void instantiateExportListButton ()
     {
-        Vector3 posicion = new Vector3 (1f, -4.25f, 0f);
+        if (gestordearchivos == null)
+        {
+            Debug.LogWarning ("El objeto 'gestordearchivos' no está asignado.");
+            return;
+        }
+
+        if (gestordelista == null)
+        {
+            Debug.LogWarning ("El objeto 'gestordelista' no está asignado.");
+            return;
+        }
+
+        Vector3 posicion = new Vector3 (1f, -4.2f, 0f);
         Quaternion rotacion = Quaternion.identity;
         var BotonExportarLista = Instantiate (prefabBotton2, posicion, rotacion, canvas);
         RectTransform rectTransform = BotonExportarLista.GetComponent<RectTransform> ();

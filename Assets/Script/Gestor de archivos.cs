@@ -24,7 +24,7 @@ public class Gestordearchivos : MonoBehaviour
     {
         archivo = ConvertListAString (lista);
         CreateFile ();
-
+        gestordebotones.ChangePanel (3);
         Debug.Log ("El contenido del archivo es " + archivo);
     }
 

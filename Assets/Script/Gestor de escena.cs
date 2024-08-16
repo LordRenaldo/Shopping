@@ -12,10 +12,7 @@ public class Gestordeescena : MonoBehaviour
     {
         gestordebotones.ChangeOfScene (scenaID);
     }
-    public void InstantiateLastList ()
-    {
 
-    }
 }
 
 
